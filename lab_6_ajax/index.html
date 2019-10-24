@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <title>Test AJAX page</title>
+  <link rel="stylesheet" type="text/css" href="./lab_styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="header">Test AJAX page</div>
+      <button class="button" onclick="loadData()">Load Some JSON</button>
+      <div class="content"></div>
+      <div class="footer"></div>
+    </div>
+  </div>
+  <script>
+    function loadData() {
+      fetch('ajax_sample.json')
+        .then(res => res.json())
+        .then(res => res.map(c => c.name))
+        .then(codes => loadData(res))
+    }
+  </script>
+</body>
+
+</html>
+<!--
+function saveCode() {
+    var size = 15;
+    var nums = new Array(size);
+    var i;
+    for (i = 0; i < nums.length; i++) {
+      var randnum = Math.floor(Math.random() * countries.length);
+      while(nums.includes(randnum)) {
+        randnum = Math.floor(Math.random() * countries.length);
+      }
+      nums[i] = randnum;
+  }
+    var div = document.getElementsByClassName("content")[0];
+    var list = div.children[0];
+    var countrylist = document.createElement('ol');
+    for (i = 0; i < nums.length; i++) {
+      var index = nums[i];
+      console.log(countries[index]);
+      var name = JSON.parse(JSON.stringify(countries[index])).name;
+      var item = document.createElement("li");
+      item.innerHTML = name;
+      countrylist.appendChild(item);
+  }
+    div.replaceChild(countrylist, list);
+    return;
+  } 
+-->
