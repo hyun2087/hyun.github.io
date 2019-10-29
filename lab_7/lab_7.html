@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Test AJAX page</title>
+  <link rel="stylesheet" type="text/css" href="lab_7.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="header">UMD Bus Routes</div>
+      <button class="button" onclick="loadData()">Load Some JSON</button>
+      <div class="content"></div>
+      <div class="footer"></div>
+    </div>
+  </div>
+  <script>
+    function loadData() {
+      fetch('ajax_sample.json')
+        .then(res => res.json())
+        .then(res => {
+          let output = stops
+          console.log(output);
+        })
+        .then(res => res.map(output))
+        .then(res => {
+          output_list = [];
+          var i;
+          for(i=0, i < output.length; i++;) {
+            output_list += output[i];
+          }
+        })
+        .then(res => {
+          var div = document.getElementsByClassName("content")[0];
+          var list = div.children[0];
+          var list_routes = document.createElement('ul');
+          for(i=0, i < list.length, i++) {
+            console.log(list_routes[i])
+            var name = JSON.parse(JSON.stringify(list_routes[i])).name;
+            var item = document.createElement('li');
+            item.innerHTML = name;
+            list_routes.appendChild(item);
+          }
+        })
+        .then(res => {
+          var select = console.log
+        })
+        .then(data => document.querySelector(".content").innerText = data);
+    }
+  </script>
+</body>
+
+</html>
