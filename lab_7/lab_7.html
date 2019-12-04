@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Test AJAX page</title>
+    <link rel="stylesheet" type="text/css" href="./lab_styles.css" />
+  </head>
 
-<head>
-  <title>Test AJAX page</title>
-  <link rel="stylesheet" type="text/css" href="lab_7.css">
-</head>
-
-<body>
-  <div class="container">
-    <div class="wrapper">
-      <div class="header">UMD Bus Routes</div>
-      <button class="button" onclick="loadData()">Load Some JSON</button>
-      <div class="content"></div>
-      <div class="footer"></div>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="header">UMD Bus Route</div>
+        <button class="button" onclick="loadData()">Load Some JSON</button>
+        <div class="content"></div>
+        <div class="footer"></div>
+      </div>
     </div>
-  </div>
-  <script>
-    function loadData() {
-      fetch('ajax_sample.json')
-        .then(res => res.json())
-        .then(res => {
-          let output = stops
-          console.log(output);
-        })
-        .then(res => res.map(output))
-        .then(res => {
-          output_list = [];
-          var i;
-          for(i=0, i < output.length; i++;) {
-            output_list += output[i];
+    <script>
+      function loadData() {
+        /* helper function */
+        const replaceChild = (parent, tag, myClass = "") => {
+          if (parent.firstElementChild) {
+            parent.removeChild(parent.firstElementChild);
           }
-        })
-        .then(res => {
-          var div = document.getElementsByClassName("content")[0];
-          var list = div.children[0];
-          var list_routes = document.createElement('ul');
-          for(i=0, i < list.length, i++) {
-            console.log(list_routes[i])
-            var name = JSON.parse(JSON.stringify(list_routes[i])).name;
-            var item = document.createElement('li');
-            item.innerHTML = name;
-            list_routes.appendChild(item);
-          }
-        })
-        .then(res => {
-          var select = console.log
-        })
-        .then(data => document.querySelector(".content").innerText = data);
-    }
-  </script>
-</body>
-
+          const newChild = document.createElement(tag);
+          newChild.setAttribute("class", myClass);
+          parent.insertAdjacentElement("afterbegin", newChild);
+          return newChild;
+        };
+        fetch("https://api.umd.io/v0/bus/routes")
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            return data;
+          })
+          .then(data => {
+            let content = document.querySelector(".content");
+            routesElement = replaceChild(content, "ul", "route-list");
+            data.map(route => {
+              let appendRoute = document.createElement("li");
+              let header = document.querySelector(".header");
+              let substr =
+                route.title.search(route.route_id) == 0
+                  ? route.title.substr(
+                      route.title.indexOf(route.route_id) +
+                        route.route_id.length +
+                        1
+                    )
+                  : route.title;
+              let routeStr = route.route_id + " " + substr;
+              appendRoute.addEventListener("click", () => {
+                header.innerHTML = "UMD Bus Route " + routeStr;
+              });
+              appendRoute.innerHTML = "Route: " + routeStr;
+              routesElement.appendChild(appendRoute);
+            });
+            console.log(data);
+            return data;
+          });
+      }
+    </script>
+  </body>
 </html>
