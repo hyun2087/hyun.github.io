@@ -102,3 +102,16 @@ h3 {
   position: relative;
   top: 1px;
 }
+
+.route-list {
+  cursor: pointer;
+  user-select: none;
+}
+
+.route-list li:hover {
+  color: #ffc477;
+}
+
+.route-list li:active {
+  color: rgb(216, 91, 46);
+}
